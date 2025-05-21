@@ -1,5 +1,23 @@
 import { useFetcher } from "react-router";
 import type { Route } from "./+types/login";
+import { redirect } from "react-router";
+import z from "zod";
+import { parseWithZod } from "@conform-to/zod";
+import { useForm } from "@conform-to/react";
+
+
+
+const schema = z.object({
+    email: z.string().min(1).email("Email inválido"),
+    password: z.string().min(6).max(12, "Senha deve ter entre 6 e 12 caracteres"),
+})
+
+const [form, fields] = useForm({
+    onValidate({formData}) {
+        return parseWithZod(formData, {schema})
+    }
+})
+
 
 export async function action({request}: Route.ActionArgs) {
     const formData = await request.formData();
@@ -9,7 +27,7 @@ export async function action({request}: Route.ActionArgs) {
         formData.get("password")
     );
 
-    return { success: true };
+    return redirect("/loaders")
 }
 
 export default function Login() {

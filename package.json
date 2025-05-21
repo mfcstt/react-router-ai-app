@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@conform-to/react": "^1.6.0",
+    "@conform-to/zod": "^1.6.0",
+    "zod": "^3.25.17"
+  }
+}
